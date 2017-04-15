@@ -36,7 +36,7 @@ procedure LeComando;
 var
    Ch : char;
 begin
-   write (´comando: ´);
+   write ('comando: ');
    read (Ch);
    if Ch in [´E´ , ´D´, ´F´] then 
       case Ch of
@@ -85,7 +85,7 @@ begin
    if Temp > TamMaxFila then
       Temp := 1;
       if Temp = Prim then
-         writeln (´ *fila cheia * ´)
+         writeln (' *fila cheia * ')
       else
          begin
             Fila[Ult] := A;
@@ -111,7 +111,7 @@ begin
          N := N - 1;
       end;
    if Prim = Ult then
-      writeln  (´* fila vazia *´)
+      writeln  (' * fila vazia * ')
    end;  (* fim do procedimento Retira *)
 
 procedure processa;
@@ -139,7 +139,7 @@ begin
       Fim;
          begin
             if Prim = Ult then
-               writeln (´* comando inválido *´)
+               writeln (' * comando inválido * ')
                readln
             end;
          end;
