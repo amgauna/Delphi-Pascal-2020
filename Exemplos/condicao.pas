@@ -1,5 +1,7 @@
 (* Comandos condicionais *)
 
+(* Programa que recebe dois números e fornece o valor do maior. *)
+
 program Maior (input, output);
 var
    X, Y : real;
