@@ -6,6 +6,6 @@ var
 begin
    read (X, Y);
    if X >= Y
-      then writeln (´Maior = ´, X)
-      else writeln (´Maior = ´, Y)
+      then writeln ('Maior = ', X)
+      else writeln ('Maior = ', Y)
 end.
