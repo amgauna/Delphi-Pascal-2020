@@ -1,3 +1,5 @@
+(* Programa que recebe um número inteiro positivo e fornece o valor do fatorial desse número usando o comando repeat until. *)
+
 program Fatorial (input, output);
 var
    Num, Fat, I : integer;
