@@ -1,0 +1,177 @@
+function verifica-cgc( cgc: string ) :boolean;
+
+var
+   cgc_calculo : string;
+   x01, x02, x03, x04 : integer;
+   x05, x06, x07, x08 : integer;
+   x09, x10, x11, x12 : integer;
+   x13, soma, digito : integer;
+   resto : integer;
+   
+begin  
+     cgc := trim(cgc); { caso o cgc seja branco a função não calcula nada }
+     
+     if cgc = '' then
+     begin
+         result := true;
+     exit;
+end;
+
+SoNumero(CGC);  { retorna os numeros do cgc passado } 
+
+StrZero(cgc,14); { preenche zeros a esquerda do numero informado }
+
+if cgc = '00000000000000' then
+begin
+    result := false;
+    exit;
+end;
+
+cgc_calculo := copy(cgc,1,12);
+
+try
+   x01 := StrToInt(cgc_calculo[01]);
+   x02 := StrToInt(cgc_calculo[02]);
+   x03 := StrToInt(cgc_calculo[03]);
+   x04 := StrToInt(cgc_calculo[04]);
+   x05 := StrToInt(cgc_calculo[05]);
+   x06 := StrToInt(cgc_calculo[06]);
+   x07 := StrToInt(cgc_calculo[07]);
+   x08 := StrToInt(cgc_calculo[08]);
+   x09 := StrToInt(cgc_calculo[09]);
+   x010 := StrToInt(cgc_calculo[10]);
+   x011 := StrToInt(cgc_calculo[11]);
+   x012 := StrToInt(cgc_calculo[12]);
+except
+    on E: EConvertError do begin
+          MessageDlg('Verifica o CGC informado, erro na conversão', mtError.[mbOk].0);
+          Result := False;
+          exit;
+        end;
+    end;
+    
+{ calculo do primeiro digito do cgc }
+
+soma := x01 * 5 + x02 * 4 + x05 * 9 + x06 * 8 + x07 * 7 + x08 * 6 + x09 * 5 + x10 * 4 + x11 * 3 + x12  * 2;
+resto := soma mod 11;
+digito := 0;
+if 11 - resto < 10 then digito := 11 - resto;
+
+{ calculo do segundo digito do cgc }
+
+soma := x01 * 6 + x02 * 5 + x03 * 4 + x04 * 3 + x05 * 2 + x06 * 9 + x07 * 8 + x08 * 7 + x09 * 6 + x10 * 5 + x11 * 4 + x12 * 3 + x13 * 2:
+resto := soma mod 11;
+digito := 0;
+if 11 - resto < 10 then 
+    result := false
+else
+    result := true;
+end;
+
+function verifica_cpf {cpf:string} :boolean;
+var
+   cpf_calculo : string;
+   x01, x02, x03, x04 : integer;
+   x05, x06, x07, x08 : integer;
+   x09, x10, soma     : integer;
+   digito, resto      : integer;
+begin
+    cpf := trim(cpf);
+    
+    { caso cpf informado seja branco a função não realiza nenhum calculo }
+    
+    if cpf = '' then
+    begin
+        result := true;
+        exit;
+     end;
+     
+     { função retorna o numero cpf passado }
+     
+     SoNumero(cpf);
+     
+     { a função preenche com zeros a esquerda do numero de cpf informado }
+     
+     StrZero(cpf,11);
+     
+     { checa se o numero de cpf é valido }
+     
+     if cpf = '00000000000' then
+     begin
+         result := false;
+         exit;
+      end;
+      
+      cpf_calculo := copy(cpf,1,9);
+      
+      try
+         x01 := StrToInt(cpf_calculo[01]);
+         x02 := StrToInt(cpf_calculo[02]);
+         x03 := StrToInt(cpf_calculo[03]);
+         x04 := StrToInt(cpf_calculo[04]);
+         x05 := StrToInt(cpf_calculo[05]);
+         x06 := StrToInt(cpf_calculo[06]);
+         x07 := StrToInt(cpf_calculo[07]);
+         x08 := StrToInt(cpf_calculo[08]);
+         x09 := StrToInt(cpf_calculo[09]);
+      except
+          on E: EConvertError do begin
+          MessageD1g('Verifique o CPF informado, erro na conversão', mtError.[mbOk],0);
+          Result := False;
+          exit;
+      end;
+   end;
+   
+   { calculo do primeiro digito do cpf }
+   
+   soma := x01 * 10 + x02 * 9 + x03 * 8 + x04 * 7 + x05 * 6 + x06 * 5 + x07 * 4 + x08 * 3 + x09 * 2;
+   resto := soma mod 11;
+   
+   if 11 - resto >== 10 then
+      digito := 0
+   else
+      digito := 11 - resto;
+      
+   cpf_calculo := cpf_calculo + copy( IntToStr(digito),1,1);
+   x10 := digito;
+   
+   { calculo do segundo digito do cpd }
+   
+   soma := x01 * 11 + x02 * 10 + x03 * 9 + x04 * 8 + x05 * 7 + x06 * 6 + x07 * 5 + x08 * 4 + x09 * 3 + x10 * 2;
+   resto := soma mod 11;
+   
+   if 11 - resto >= 10 then
+      digito := 0
+   else
+      digito := 11 - resto;
+      
+   cpf_calculo := cpf_calculo + copy( InttoStr(digito),1,1);
+   
+   { compara o cpf informado com o cpf calculado, sendo verdadeiro retorna true, senão retorna false }
+   
+   if cpf <> cpf_calculo then
+      result := false
+   else
+      result := true;
+   end;
+   
+   procedure SoNumero(var S: string);
+   { retorna somente os numeros da string }
+   var
+      cont: integer;
+      x: string;
+   begin
+        x := '';
+        for cont := 1 to lenght(S) do
+            if S[cont] in ['0'..'9'] then
+               X := X + S[cont];
+         S := X;
+   end;
+   
+   function SrtZero(valor: string; tamanho: integer): string;
+   { preenche com zeros a esquerda baseado no tamanho }
+   begin
+       while length(valor) < tamanho do
+           valor := '0' + valor;
+           result := valor;
+    end;
